@@ -1,3 +1,25 @@
+
+#include <Wire.h>
+#include <Adafruit_MotorShield.h>
+#include "utility/Adafruit_MS_PWMServoDriver.h"
+
+Adafruit_MotorShield AFMS = Adafruit_MotorShield();
+
+// motor 0 is right side, motor 1 is left side 
+Adafruit_DCMotor *motor0 = AFMS.getMotor(3);
+Adafruit_DCMotor *motor1 = AFMS.getMotor(1); 
+
+void setup() {
+    AFMS.begin();
+    Serial.begin(9600);
+
+    // Set default speed 
+    motor0->setSpeed(10);
+    motor0->setSpeed(90);
+    motor1->setSpeed(10);
+    motor1->setSpeed(90);
+}
+
 void loop() {
   while (Serial.available() == 0) {
     // wait for data available in serial receive buffer
@@ -37,18 +59,4 @@ void loop() {
     rightWheel->run(RELEASE);
     leftWheel->run(RELEASE);
     Serial.println("0");
-  }
-}
-
-void readSensors() {
-  // read right sensor voltage:
-  int RVal = analogRead(RIGHT_SENSE);
-  // read left sensor voltage:
-  int LVal = analogRead(LEFT_SENSE);
-
-  // no idea how to do this part
-  // print to serial as a tuple
-  //char buffer;
-  //sprintf(buffer, ;
-  //Serial.println(buffer);
 }
